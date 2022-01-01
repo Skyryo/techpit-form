@@ -15,7 +15,7 @@ import { RootState } from "../domain/entity/rootState";
 import { Profile } from "../domain/entity/profile";
 import { PROFILE } from "../domain/services/profile";
 import { Gender } from "../domain/entity/gender";
-import profileActions from "../store/profile/action";
+import profileActions from "../store/profile/actions";
 
 const Basic = () => {
     const dispatch = useDispatch();

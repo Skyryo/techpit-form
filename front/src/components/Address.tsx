@@ -1,17 +1,12 @@
 import React from "react";
-
 import { useDispatch, useSelector } from "react-redux";
 import { TextField } from "@material-ui/core";
-
 import { PROFILE } from "../domain/services/profile";
-
 import { RootState } from "../domain/entity/rootState";
 import { Address as IAddress } from "../domain/entity/address";
-
-import profileActions from "../store/profile/action";
-
+import profileActions from "../store/profile/actions";
 import { isPostalcode } from "../domain/services/address";
-
+import { searchAddressFromPostalcode } from "../store/profile/effects";
 import useStyles from "./styles";
 
 const Address = () => {
@@ -28,6 +23,7 @@ const Address = () => {
         if(!isPostalcode(code)) return;
 
         dispatch(profileActions.setAddress({ postalcode: code }));
+        dispatch(searchAddressFromPostalcode(code));
     };
 
     return (

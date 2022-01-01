@@ -1,6 +1,6 @@
 import { reducerWithInitialState } from "typescript-fsa-reducers";
 import { Profile } from "../../domain/entity/profile";
-import profileActions from "./action";
+import profileActions from "./actions";
 
 const init: Profile = {
     name: "",
@@ -12,6 +12,7 @@ const init: Profile = {
         postalcode: "",
         prefecture: "",
         city: "",
+        town:"",
         restAddress: ""
     }
 };
@@ -24,6 +25,11 @@ const profileReducer = reducerWithInitialState(init)
     .case(profileActions.setAddress,(state, payload) => ({
             ...state,
             address: {...state.address, ...payload }
+        }))
+    
+    .case(profileActions.searchAddress.done,(state, payload) => ({
+            ...state,
+            address: {...state.address, ...payload.result }
         }));
-
+    
 export default profileReducer;
