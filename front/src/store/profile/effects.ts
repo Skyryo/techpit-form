@@ -20,7 +20,7 @@ export const searchAddressFromPostalcode = (code: string) => async (
 
   const address: Partial<Address> = {
     prefecture: result.data[0].pref,
-    town: result.data[0].city + result.data[0].town
+    city: result.data[0].city + result.data[0].town
   };
 
   dispach(profileActions.searchAddress.done({ result: address, params: {} }));
