@@ -8,12 +8,14 @@ import profileActions from "../store/profile/actions";
 import { exitEmptyCareers } from "../domain/services/career";
 
 import useStyles from "./styles";
-import { profile } from "console";
+
 
 const Career =() => {
     const classes = useStyles();
     const dispatch = useDispatch();
     const careers = useSelector((state: RootState) => state.profile.careers);
+    const validation = useSelector((state: RootState) => state.validation);
+
     const isAbleToAddCareer = exitEmptyCareers(careers);
     const handleChange = (member: Partial<ICareer>, i: number) => {
         dispatch(profileActions.setCareer({
@@ -34,19 +36,51 @@ const Career =() => {
                     <Typography variant="h5" component="h3" className={classes.title}>
                         職歴{ i + 1 }
                     </Typography>
-                    <TextField className={classes.formField} fullWidth label={PROFILE.CAREERS.COMPANY} value={c.company} onChange={e => handleChange({ company:e.target.value }, i)} />
-                    <TextField className={classes.formField} fullWidth label={PROFILE.CAREERS.POSITION} value={c.position} onChange={e => handleChange({ position:e.target.value }, i)} />
+                    <TextField 
+                        className={classes.formField}
+                        fullWidth
+                        error={!!validation.message.careers[i]?.company}
+                        helperText={validation.message.careers[i]?.company}
+                        label={PROFILE.CAREERS.COMPANY}
+                        value={c.company}
+                        onChange={e => handleChange({ company:e.target.value }, i)}
+                    />
+                    <TextField
+                        className={classes.formField}
+                        fullWidth
+                        error={!!validation.message.careers[i]?.position}
+                        helperText={validation.message.careers[i]?.position}
+                        label={PROFILE.CAREERS.POSITION}
+                        value={c.position}
+                        onChange={e => handleChange({ position:e.target.value }, i)}
+                    />
                     <div className={classes.careerSpan}>
                         <InputLabel shrink>{PROFILE.CAREERS.SPAN}</InputLabel>
                         <Grid container spacing={1} alignContent="space-between" alignItems="center">
                             <Grid item xs={5}>
-                                <TextField fullWidth type="month" InputLabelProps={{shrink: true }} value={c.startAt} onChange={e => handleChange({ startAt:e.target.value }, i)} />
+                                <TextField
+                                    fullWidth
+                                    type="month"
+                                    error={!!validation.message.careers[i]?.startAt}
+                                    helperText={validation.message.careers[i]?.startAt}
+                                    InputLabelProps={{shrink: true }}
+                                    value={c.startAt}
+                                    onChange={e => handleChange({ startAt:e.target.value }, i)}
+                                />
                             </Grid>
                             <Grid item xs={2}>
                                 <Typography align="center">~</Typography>
                             </Grid>
                             <Grid item xs={5}>
-                                <TextField fullWidth type="month" InputLabelProps={{shrink:true}} value={c.endAt} onChange={e => handleChange({ endAt:e.target.value }, i)} />
+                                <TextField
+                                    fullWidth
+                                    type="month"
+                                    error={!!validation.message.careers[i]?.endAt}
+                                    helperText={validation.message.careers[i]?.endAt}                                    
+                                    InputLabelProps={{shrink:true}}
+                                    value={c.endAt}
+                                    onChange={e => handleChange({ endAt:e.target.value }, i)}
+                                />
                             </Grid>
                         </Grid>
                     </div>
